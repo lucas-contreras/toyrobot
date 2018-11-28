@@ -12,7 +12,7 @@ module.exports = function(env, args) {
 					loader: "babel-loader"
 				},
 				{
-					test: /\.(css|less)$/,
+					test: /\.(css)$/,
 					loaders: ["style-loader", "css-loader"]
 				}
 			]

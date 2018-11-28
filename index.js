@@ -1,5 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Index from "./src/screens/home";
+import { Provider } from "react-redux";
 
-ReactDOM.render(<Index />, document.getElementById("root"));
+import Container from "./src/screens/home/container";
+import { store } from "./src/store/store";
+
+const Enhanced = () => (
+	<Provider store={store}>
+		<Container />
+	</Provider>
+);
+
+ReactDOM.render(<Enhanced />, document.getElementById("root"));
