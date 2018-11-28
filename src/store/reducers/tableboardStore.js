@@ -1,3 +1,5 @@
+import { ActionConstants } from "../../screens/home/actions/homeActions";
+
 const initialState = {
 	size: {
 		x: 5,

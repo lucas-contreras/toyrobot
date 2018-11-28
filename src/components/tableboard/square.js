@@ -5,8 +5,6 @@ export default class Square extends React.Component {
 	constructor(props) {
 		super(props);
 
-		debugger;
-
 		this.state = {
 			positionX: props.position.x,
 			positionY: props.position.y,
@@ -14,11 +12,13 @@ export default class Square extends React.Component {
 		};
 	}
 
-	static getDerivedStateFromProps(props, state) {
-		console.log("getDerivedStateFromProps - Square", props, state);
-	}
+	// static getDerivedStateFromProps(props, state) {
+	// 	console.log("getDerivedStateFromProps - Square", props, state);
+	// 	return state;
+	// }
 
 	render() {
+		
 		return <div className="square">{this.props.children}</div>;
 	}
 }
