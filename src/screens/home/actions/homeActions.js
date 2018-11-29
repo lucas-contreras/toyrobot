@@ -309,12 +309,26 @@ export function calculateLeft(degreePosition) {
 	return result;
 }
 
-export const Methods = { sendCommand, enableFreewill, resetRobotState, changeCommands };
+export const Methods = {
+	sendCommand,
+	enableFreewill,
+	resetRobotState,
+	changeCommands,
+	calulateMovement,
+	calculateLeft,
+	calculateRight,
+	getFacingCodeByValue,
+	getFacingValueByCode
+};
 export const Constants = {
 	FACING_WEST_VALUE,
 	FACING_NORTH_VALUE,
 	FACING_EAST_VALUE,
 	FACING_SOUTH_VALUE,
+	FACING_EAST_CODE,
+	FACING_NORTH_CODE,
+	FACING_WEST_CODE,
+	FACING_SOUTH_CODE,
 	ROBOT_MOVEMENT,
 	CHANGE_SIZE_TABLEBOARD,
 	CHANGE_FACING_ROBOT,
