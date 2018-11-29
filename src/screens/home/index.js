@@ -6,12 +6,11 @@ export default class Home extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { action: "" }
 		this.intervalId = null;
 	}
 
 	onActionChange(evt) {
-		this.setState({ action: evt.target.value });
+		this.props.changeCommands(evt.target.value);
 	}
 
 	onEnableFreewill() {
@@ -30,7 +29,6 @@ export default class Home extends React.Component {
 	}
 
 	render() {
-		console.log("index was rendered");
 		const { tableboard, robot } = this.props;
 
 		return (
@@ -50,22 +48,22 @@ export default class Home extends React.Component {
 								<button
 									type="button"
 									className="btn btn-primary margin-right-xxxs"
-									onClick={() => this.props.sendCommand(this.state.action)}>Execute command</button>
+									disabled={this.intervalId != null}
+									onClick={() => this.props.sendCommand(this.props.commands)}>Execute command</button>
 								<button
 									type="button"
 									className="btn btn-primary margin-right-xxxs"
+									disabled={this.intervalId != null}
 									onClick={() => this.onEnableFreewill()}>Active freewill</button>
 								<button
 									type="button"
 									className="btn btn-primary margin-right-xxxs"
-									onClick={() => this.onTurnOffFreewill()}>Disable freewill</button>
+									onClick={() => this.onTurnOffFreewill()}>Reset All</button>
 							</div>
 							<div className="col-12">
-								{this.intervalId != null ?
-									<div className="alert alert-danger" role="alert">
-										THE ROBOT HAS TAKEN CONTROL OF ITS MOVEMENTS
-								  	</div> :
-									<textarea rows={10} cols={55} value={this.state.value} onChange={(evt) => this.onActionChange(evt)}></textarea>
+								{this.intervalId != null
+									? <div className="alert alert-danger" role="alert">Freewill has been activated</div>
+									: <textarea rows={10} cols={55} value={this.props.commands} onChange={(evt) => this.onActionChange(evt)}></textarea>
 								}
 
 							</div>
@@ -73,10 +71,10 @@ export default class Home extends React.Component {
 								<label>Output</label>
 							</div>
 							<div className="col-12">
-								<input type="textbox" style={{ color: "red" }} value={this.props.reportMessage} readOnly />
+								<input type="textbox" value={this.props.reportMessage} readOnly title="Here you will see output result when you input REPORT in above input" />
 							</div>
 							<div className="col-12">
-								<label>{this.props.errorMessage}</label>
+								<label style={{ color: "red" }}>{this.props.errorMessage}</label>
 							</div>
 						</div>
 					</div>

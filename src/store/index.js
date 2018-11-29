@@ -7,6 +7,7 @@ import { Constants } from "../screens/home/actions/homeActions";
 const initialState = {
 	errorMessage: "",
 	reportMessage: "",
+	commands: "",
 	robot: {
 		position: {
 			x: 0,
@@ -33,6 +34,7 @@ export default function appStore(state = initialState, action) {
 		case Constants.CHANGE_FACING_ROBOT: {
 			return {
 				...state,
+				isReset: false,
 				robot: {
 					...state.robot,
 					facing: action.value
@@ -44,6 +46,7 @@ export default function appStore(state = initialState, action) {
 
 			return {
 				...state,
+				isReset: false,
 				robot: {
 					position: action.robot.position,
 					facing: hasValue ? action.robot.facing : state.robot.facing
@@ -62,6 +65,12 @@ export default function appStore(state = initialState, action) {
 		}
 		case Constants.RESET_ROBOT_STATE: {
 			return initialState;
+		}
+		case Constants.CHANGE_COMMANDS: {
+			return {
+				...state,
+				commands: action.value
+			}
 		}
 		default: {
 			return state;

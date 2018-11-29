@@ -1,5 +1,9 @@
 import React from "react";
 
+/**
+ * Component that represents image robot
+ * @param {*} props 
+ */
 const RobotImg = (props) => {
     const { facing } = props;
     let src = "";

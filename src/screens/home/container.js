@@ -19,10 +19,16 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		resetRobotState: () => {
 			dispatch(Methods.resetRobotState())
+		},
+		changeCommands: (commands) => {
+			dispatch(Methods.changeCommands(commands));
 		}
 	});
 };
 
+/**
+ * HOC Index
+ */
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps

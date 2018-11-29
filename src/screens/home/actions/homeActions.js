@@ -12,6 +12,7 @@ export const ROBOT_MOVEMENT = "ROBOT_MOVEMENT";
 
 export const CHANGE_SIZE_TABLEBOARD = "CHANGE_SIZE_TABLEBOARD";
 export const CHANGE_FACING_ROBOT = "CHANGE_FACING_ROBOT";
+export const CHANGE_COMMANDS = "CHANGE_COMMANDS";
 export const ERROR_MESSAGE = "ERROR_MESSAGE";
 export const SHOW_REPORT = "SHOW_REPORT";
 export const RESET_ROBOT_STATE = "RESET_ROBOT_STATE";
@@ -222,6 +223,11 @@ export function resetRobotState() {
 		dispatch({ type: RESET_ROBOT_STATE });
 	}
 }
+export function changeCommands(commands) {
+	return (dispatch) => {
+		dispatch({ type: CHANGE_COMMANDS, value: commands });
+	}
+}
 /**
  * Returns a code facing using a value
  * @param {*} value number - value position (can be 0, 90, 180 or 270)
@@ -303,7 +309,7 @@ export function calculateLeft(degreePosition) {
 	return result;
 }
 
-export const Methods = { sendCommand, enableFreewill, resetRobotState };
+export const Methods = { sendCommand, enableFreewill, resetRobotState, changeCommands };
 export const Constants = {
 	FACING_WEST_VALUE,
 	FACING_NORTH_VALUE,
@@ -312,6 +318,7 @@ export const Constants = {
 	ROBOT_MOVEMENT,
 	CHANGE_SIZE_TABLEBOARD,
 	CHANGE_FACING_ROBOT,
+	CHANGE_COMMANDS,
 	ERROR_MESSAGE,
 	SHOW_REPORT,
 	RESET_ROBOT_STATE
