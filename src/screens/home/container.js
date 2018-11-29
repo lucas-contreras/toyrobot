@@ -5,9 +5,7 @@ import { Methods } from "./actions/homeActions";
 
 const mapStateToProps = (state) => {
 	return {
-		app: state.appStore,
-		robot: state.robotStore,
-		tableboard: state.tableboardStore
+		...state
 	};
 };
 
@@ -15,6 +13,9 @@ const mapDispatchToProps = (dispatch) => {
 	return ({
 		sendCommand: (command) => {
 			dispatch(Methods.sendCommand(command));
+		},
+		enableFreewill: (option = true) => {
+			dispatch(Methods.enableFreewill(option))
 		}
 	});
 };

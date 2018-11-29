@@ -18,12 +18,10 @@ export default class TableBoard extends React.Component {
 
 		for (let y = 0; y < size.y; y++) {
 			for (let x = 0; x < size.x; x++) {
-				const existRobot = (robot && (robot.positionX == x && robot.positionY == y));
+				const existRobot = (robot && (robot.position.x == x && robot.position.y == y));
 
 				squares.push(
-					<Square
-						key={`${y}-${x}`}
-						position={{ x, y }}>
+					<Square key={`${y}-${x}`}>
 						{existRobot && <Robot robot={robot} />}
 					</Square>
 				);

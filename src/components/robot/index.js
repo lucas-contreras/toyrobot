@@ -1,40 +1,6 @@
 import React from "react";
+import RobotImg from "./robotImg";
 
-export default class Robot extends React.Component {
-	render() {
-		return (
-			<div>
-				{this.renderRobotPosition()}
-			</div>
-		)
-	}
+const Robot = (props) => (<div><RobotImg facing={props.robot.facing} /></div>)
 
-	renderRobotPosition() {
-		const { robot } = this.props;
-		switch (robot.currentFacing) {
-			case 270: {
-				return <div>
-					front
-				</div>
-			}
-			case 90: {
-				return <div>
-					back
-				</div>
-			}
-			case 0: {
-				return <div>
-					right
-				</div>
-			}
-			case 180: {
-				return <div>
-					left
-				</div>
-			}
-			default: {
-				return <div>never must be here!</div>
-			}
-		}
-	}
-}
+export default Robot;

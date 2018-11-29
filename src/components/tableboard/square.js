@@ -1,24 +1,6 @@
 import React from "react";
 import "./tableboard.css";
 
-export default class Square extends React.Component {
-	constructor(props) {
-		super(props);
+const Square = (props) => (<div className="square">{props.children}</div>);
 
-		this.state = {
-			positionX: props.position.x,
-			positionY: props.position.y,
-			robot: null
-		};
-	}
-
-	// static getDerivedStateFromProps(props, state) {
-	// 	console.log("getDerivedStateFromProps - Square", props, state);
-	// 	return state;
-	// }
-
-	render() {
-		
-		return <div className="square">{this.props.children}</div>;
-	}
-}
+export default Square;
