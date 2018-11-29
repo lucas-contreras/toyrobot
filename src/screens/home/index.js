@@ -1,5 +1,6 @@
 import React from "react";
 import TableBoard from "../../components/tableboard";
+import "./home.css";
 
 export default class Home extends React.Component {
 	constructor(props) {
@@ -24,6 +25,8 @@ export default class Home extends React.Component {
 	onTurnOffFreewill() {
 		clearInterval(this.intervalId);
 		this.intervalId = null;
+
+		this.props.resetRobotState();
 	}
 
 	render() {
@@ -31,22 +34,56 @@ export default class Home extends React.Component {
 		const { tableboard, robot } = this.props;
 
 		return (
-			<div>
-				<div>
-					<textarea rows={10} cols={50} value={this.state.value} onChange={(evt) => this.onActionChange(evt)}></textarea>
-					<input type="textbox" value={this.props.reportMessage} readOnly />
-					<button
-						type="button"
-						onClick={() => this.props.sendCommand(this.state.action)}>send command</button>
-					<button
-						type="button"
-						onClick={() => this.onEnableFreewill()}>enable freewill</button>
-					<button
-						type="button"
-						onClick={() => this.onTurnOffFreewill()}>turn off freewill</button>
+			<div className="container">
+				<div className="row">
+					<div className="col-12">
+						<h1>Toy Robot</h1>
+					</div>
 				</div>
-				<div>{this.props.errorMessage}</div>
-				<TableBoard size={tableboard.size} robot={robot} />
+				<div className="row">
+					<div className="col-12 col-md-12 col-lg-6">
+						<div className="row">
+							<div className="col-12">
+								<label>Commands</label>
+							</div>
+							<div className="col-12 margin-bottom-xxxs">
+								<button
+									type="button"
+									className="btn btn-primary margin-right-xxxs"
+									onClick={() => this.props.sendCommand(this.state.action)}>Execute command</button>
+								<button
+									type="button"
+									className="btn btn-primary margin-right-xxxs"
+									onClick={() => this.onEnableFreewill()}>Active freewill</button>
+								<button
+									type="button"
+									className="btn btn-primary margin-right-xxxs"
+									onClick={() => this.onTurnOffFreewill()}>Disable freewill</button>
+							</div>
+							<div className="col-12">
+								{this.intervalId != null ?
+									<div className="alert alert-danger" role="alert">
+										THE ROBOT HAS TAKEN CONTROL OF ITS MOVEMENTS
+								  	</div> :
+									<textarea rows={10} cols={55} value={this.state.value} onChange={(evt) => this.onActionChange(evt)}></textarea>
+								}
+
+							</div>
+							<div className="col-12">
+								<label>Output</label>
+							</div>
+							<div className="col-12">
+								<input type="textbox" style={{ color: "red" }} value={this.props.reportMessage} readOnly />
+							</div>
+							<div className="col-12">
+								<label>{this.props.errorMessage}</label>
+							</div>
+						</div>
+					</div>
+					<div className="col-12 col-md-12 col-lg-6">
+						<TableBoard size={tableboard.size} robot={robot} />
+					</div>
+				</div>
 			</div>
 		);
 	}

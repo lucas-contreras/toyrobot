@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		enableFreewill: (option = true) => {
 			dispatch(Methods.enableFreewill(option))
+		},
+		resetRobotState: () => {
+			dispatch(Methods.resetRobotState())
 		}
 	});
 };

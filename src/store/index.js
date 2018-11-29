@@ -60,6 +60,9 @@ export default function appStore(state = initialState, action) {
 				reportMessage
 			}
 		}
+		case Constants.RESET_ROBOT_STATE: {
+			return initialState;
+		}
 		default: {
 			return state;
 		}

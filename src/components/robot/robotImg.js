@@ -24,7 +24,7 @@ const RobotImg = (props) => {
     }
 
     return (
-        <img src={`../../../assest/robot/${src}`} height={100} width={100} />
+        <img src={`../../../assest/robot/${src}`} height={70} width={70} />
     )
 }
 

@@ -14,6 +14,7 @@ export const CHANGE_SIZE_TABLEBOARD = "CHANGE_SIZE_TABLEBOARD";
 export const CHANGE_FACING_ROBOT = "CHANGE_FACING_ROBOT";
 export const ERROR_MESSAGE = "ERROR_MESSAGE";
 export const SHOW_REPORT = "SHOW_REPORT";
+export const RESET_ROBOT_STATE = "RESET_ROBOT_STATE";
 
 export const COMMAND_PLACE = "PLACE";
 export const COMMAND_MOVE = "MOVE";
@@ -21,6 +22,10 @@ export const COMMAND_LEFT = "LEFT";
 export const COMMAND_RIGHT = "RIGHT";
 export const COMMAND_REPORT = "REPORT";
 
+/**
+ * Executes the commands passed through params
+ * @param {*} command array of string about commands availables
+ */
 export function sendCommand(command = "") {
 	return (dispatch, getState) => {
 		const newCommands = [];
@@ -122,8 +127,8 @@ export function sendCommand(command = "") {
 	}
 }
 /**
- * 
- * @param {*} option 
+ * Gives the robot feel free to do whatever he wants.
+ * @param {*} option boolean
  */
 export function enableFreewill(option) {
 	return (dispatch, getState) => {
@@ -210,6 +215,14 @@ export function calulateMovement(robot, maxSizeAllowed) {
 	};
 }
 /**
+ * Resets the robot state
+ */
+export function resetRobotState() {
+	return (dispatch) => {
+		dispatch({ type: RESET_ROBOT_STATE });
+	}
+}
+/**
  * Returns a code facing using a value
  * @param {*} value number - value position (can be 0, 90, 180 or 270)
  */
@@ -290,7 +303,7 @@ export function calculateLeft(degreePosition) {
 	return result;
 }
 
-export const Methods = { sendCommand, enableFreewill };
+export const Methods = { sendCommand, enableFreewill, resetRobotState };
 export const Constants = {
 	FACING_WEST_VALUE,
 	FACING_NORTH_VALUE,
@@ -300,5 +313,6 @@ export const Constants = {
 	CHANGE_SIZE_TABLEBOARD,
 	CHANGE_FACING_ROBOT,
 	ERROR_MESSAGE,
-	SHOW_REPORT
+	SHOW_REPORT,
+	RESET_ROBOT_STATE
 };
