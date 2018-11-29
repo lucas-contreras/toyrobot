@@ -23,6 +23,7 @@ export default class Home extends React.Component {
 
 	onTurnOffFreewill() {
 		clearInterval(this.intervalId);
+		this.intervalId = null;
 	}
 
 	render() {
@@ -33,6 +34,7 @@ export default class Home extends React.Component {
 			<div>
 				<div>
 					<textarea rows={10} cols={50} value={this.state.value} onChange={(evt) => this.onActionChange(evt)}></textarea>
+					<input type="textbox" value={this.props.reportMessage} readOnly />
 					<button
 						type="button"
 						onClick={() => this.props.sendCommand(this.state.action)}>send command</button>

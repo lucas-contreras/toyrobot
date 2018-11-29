@@ -13,6 +13,7 @@ export const ROBOT_MOVEMENT = "ROBOT_MOVEMENT";
 export const CHANGE_SIZE_TABLEBOARD = "CHANGE_SIZE_TABLEBOARD";
 export const CHANGE_FACING_ROBOT = "CHANGE_FACING_ROBOT";
 export const ERROR_MESSAGE = "ERROR_MESSAGE";
+export const SHOW_REPORT = "SHOW_REPORT";
 
 export const COMMAND_PLACE = "PLACE";
 export const COMMAND_MOVE = "MOVE";
@@ -27,6 +28,7 @@ export function sendCommand(command = "") {
 		const { robot, tableboard } = getState();
 
 		let error = false;
+		let printAtEnd = false;
 		let robotSetup = { ...robot };
 
 		command.split(/\n/).forEach(c => {
@@ -50,7 +52,7 @@ export function sendCommand(command = "") {
 					break;
 				}
 				case COMMAND_REPORT: {
-
+					printAtEnd = true;
 					break;
 				}
 				default: {
@@ -73,7 +75,8 @@ export function sendCommand(command = "") {
 									position: {
 										x: parseInt(secondPart[0]),
 										y: parseInt(secondPart[1])
-									}
+									},
+									facing: undefined
 								}
 
 								if (robotSetup.position.x > tableboard.size.x) {
@@ -84,27 +87,11 @@ export function sendCommand(command = "") {
 									robotSetup.position.y = tableboard.size.y - 1;
 								}
 
-								switch (secondPart[2].replace(/\s/, "").toUpperCase()) {
-									case FACING_EAST_CODE: {
-										robotSetup.facing = FACING_EAST_VALUE;
-										break;
-									}
-									case FACING_NORTH_CODE: {
-										robotSetup.facing = FACING_NORTH_VALUE;
-										break;
-									}
-									case FACING_WEST_CODE: {
-										robotSetup.facing = FACING_WEST_VALUE;
-										break;
-									}
-									case FACING_SOUTH_CODE: {
-										robotSetup.facing = FACING_SOUTH_VALUE;
-										break;
-									}
-									default: {
-										error = true;
-										commandErrorList.push(secondPart[2]);
-									}
+								robotSetup.facing = getFacingValueByCode(secondPart[2]);
+
+								if (robotSetup.facing == null) {
+									error = true;
+									commandErrorList.push(secondPart[2]);
 								}
 							}
 						}
@@ -120,10 +107,17 @@ export function sendCommand(command = "") {
 		if (error) {
 			dispatch({ type: ERROR_MESSAGE, error: "Syntax error: " + commandErrorList.join(", ") + " one or more commands/parameters are incorrect" });
 		} else {
-			dispatch([
+			const typesToDispatch = [
 				{ type: ERROR_MESSAGE, error: "" },
 				{ type: ROBOT_MOVEMENT, robot: robotSetup }
-			]);
+			];
+
+			if (printAtEnd) {
+				const facingCode = getFacingCodeByValue(robotSetup.facing);
+				typesToDispatch.push({ type: SHOW_REPORT, robot: robotSetup, facingCode })
+			}
+
+			dispatch(typesToDispatch);
 		}
 	}
 }
@@ -133,7 +127,6 @@ export function sendCommand(command = "") {
  */
 export function enableFreewill(option) {
 	return (dispatch, getState) => {
-		debugger;
 		const state = getState();
 		const { robot, tableboard } = state;
 
@@ -171,7 +164,7 @@ export function enableFreewill(option) {
  * @param {*} robot robot object
  * @param {*} maxSizeAllowed size of the tableboard {x: number, y: number}
  */
-function calulateMovement(robot, maxSizeAllowed) {
+export function calulateMovement(robot, maxSizeAllowed) {
 	const newPosition = {
 		x: robot.position.x,
 		y: robot.position.y
@@ -217,10 +210,56 @@ function calulateMovement(robot, maxSizeAllowed) {
 	};
 }
 /**
+ * Returns a code facing using a value
+ * @param {*} value number - value position (can be 0, 90, 180 or 270)
+ */
+export function getFacingCodeByValue(value = 0) {
+	switch (value) {
+		case FACING_EAST_VALUE: {
+			return FACING_EAST_CODE;
+		}
+		case FACING_NORTH_VALUE: {
+			return FACING_NORTH_CODE;
+		}
+		case FACING_WEST_VALUE: {
+			return FACING_WEST_CODE;
+		}
+		case FACING_SOUTH_VALUE: {
+			return FACING_SOUTH_CODE;
+		}
+		default: {
+			return null;
+		}
+	}
+}
+/**
+ * Returns a value facing using a code
+ * @param {*} value code - code position (can be north, west, east or south)
+ */
+export function getFacingValueByCode(code = "") {
+	switch (code.replace(/\s/, "").toUpperCase()) {
+		case FACING_EAST_CODE: {
+			return FACING_EAST_VALUE;
+		}
+		case FACING_NORTH_CODE: {
+			return FACING_NORTH_VALUE;
+		}
+		case FACING_WEST_CODE: {
+			return FACING_WEST_VALUE;
+		}
+		case FACING_SOUTH_CODE: {
+			return FACING_SOUTH_VALUE;
+		}
+		default: {
+			return null;
+		}
+	}
+}
+/**
  * Returns the current position adding 90
  * @param {*} degreePosition number
  */
-function calculateRight(degreePosition) {
+export function calculateRight(degreePosition) {
 	/*if the result is more or equal than 360 it means two things, 
 		first, the robot has gave a completed a lap 
 		second one, the last position was facing to left and its current position is 360
@@ -237,7 +276,7 @@ function calculateRight(degreePosition) {
  * Returns the current position subtracting 90
  * @param {*} degreePosition number
  */
-function calculateLeft(degreePosition) {
+export function calculateLeft(degreePosition) {
 	/*if the result is less than 0 it means two things, 
 		first, the robot has gave a completed a lap 
 		second one, the last position was facing to right and its current position is 0 so is negative
@@ -260,5 +299,6 @@ export const Constants = {
 	ROBOT_MOVEMENT,
 	CHANGE_SIZE_TABLEBOARD,
 	CHANGE_FACING_ROBOT,
-	ERROR_MESSAGE
+	ERROR_MESSAGE,
+	SHOW_REPORT
 };

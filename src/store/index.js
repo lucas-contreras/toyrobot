@@ -50,6 +50,16 @@ export default function appStore(state = initialState, action) {
 				}
 			}
 		}
+		case Constants.SHOW_REPORT: {
+			const { position } = action.robot;
+			const { facingCode } = action;
+			const reportMessage = `Output: ${position.x}, ${position.y}, ${facingCode}`
+
+			return {
+				...state,
+				reportMessage
+			}
+		}
 		default: {
 			return state;
 		}
