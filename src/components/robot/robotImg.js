@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * Component that represents image robot
@@ -30,6 +31,10 @@ const RobotImg = (props) => {
     return (
         <img src={`../../../assest/robot/${src}`} height={70} width={70} />
     )
+}
+
+RobotImg.propTypes = {
+    facing: PropTypes.number.isRequired
 }
 
 export default RobotImg;
