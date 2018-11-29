@@ -3,6 +3,11 @@ export const FACING_NORTH_VALUE = 90;
 export const FACING_WEST_VALUE = 180;
 export const FACING_SOUTH_VALUE = 270;
 
+export const FACING_EAST_CODE = "EAST";
+export const FACING_NORTH_CODE = "NORTH";
+export const FACING_WEST_CODE = "WEST";
+export const FACING_SOUTH_CODE = "SOUTH";
+
 export const ROBOT_MOVEMENT = "ROBOT_MOVEMENT";
 
 export const CHANGE_SIZE_TABLEBOARD = "CHANGE_SIZE_TABLEBOARD";
@@ -17,13 +22,11 @@ export const COMMAND_REPORT = "REPORT";
 
 export function sendCommand(command = "") {
 	return (dispatch, getState) => {
-		//debugger;
 		const newCommands = [];
 		const commandErrorList = [];
 		const { robot, tableboard } = getState();
 
 		let error = false;
-		let typeDispatch = [{ type: ERROR_MESSAGE, error: "" }];
 		let robotSetup = { ...robot };
 
 		command.split(/\n/).forEach(c => {
@@ -33,23 +36,17 @@ export function sendCommand(command = "") {
 		});
 
 		newCommands.forEach(nc => {
-			debugger;
-
 			switch (nc.replace(/\s/, "")) {
 				case COMMAND_MOVE: {
-					const result = calulateMovement(robotSetup, tableboard.size);
-
-					robotSetup = { ...robotSetup, position: { ...result } }
-
-					typeDispatch.push({ type: ROBOT_MOVEMENT, position: robotSetup })
+					robotSetup = calulateMovement(robotSetup, tableboard.size);
 					break;
 				}
 				case COMMAND_LEFT: {
-					typeDispatch.push({ type: CHANGE_FACING_ROBOT, value: calculateLeft(robot.facing) });
+					robotSetup.facing = calculateLeft(robotSetup.facing);
 					break;
 				}
 				case COMMAND_RIGHT: {
-					typeDispatch.push({ type: CHANGE_FACING_ROBOT, value: calculateRight(robot.facing) });
+					robotSetup.facing = calculateRight(robotSetup.facing);
 					break;
 				}
 				case COMMAND_REPORT: {
@@ -57,7 +54,6 @@ export function sendCommand(command = "") {
 					break;
 				}
 				default: {
-					debugger;
 					if (nc.startsWith(COMMAND_PLACE)) {
 						const firstPart = nc.substring(0, COMMAND_PLACE.length + 1);
 						const secondPart = nc.substring(COMMAND_PLACE.length, nc.length).split(",");
@@ -66,7 +62,51 @@ export function sendCommand(command = "") {
 							error = true;
 							commandErrorList.push(nc);
 						} else {
+							const isNotValidP1 = isNaN(parseInt(secondPart[0]));
+							const isNotValidP2 = isNaN(parseInt(secondPart[1]));
 
+							if (isNotValidP1 || isNotValidP2) {
+								error = true;
+								commandErrorList.push(secondPart[0], secondPart[1]);
+							} else {
+								robotSetup = {
+									position: {
+										x: parseInt(secondPart[0]),
+										y: parseInt(secondPart[1])
+									}
+								}
+
+								if (robotSetup.position.x > tableboard.size.x) {
+									robotSetup.position.x = tableboard.size.x - 1;
+								}
+
+								if (robotSetup.position.y > tableboard.size.y) {
+									robotSetup.position.y = tableboard.size.y - 1;
+								}
+
+								switch (secondPart[2].replace(/\s/, "").toUpperCase()) {
+									case FACING_EAST_CODE: {
+										robotSetup.facing = FACING_EAST_VALUE;
+										break;
+									}
+									case FACING_NORTH_CODE: {
+										robotSetup.facing = FACING_NORTH_VALUE;
+										break;
+									}
+									case FACING_WEST_CODE: {
+										robotSetup.facing = FACING_WEST_VALUE;
+										break;
+									}
+									case FACING_SOUTH_CODE: {
+										robotSetup.facing = FACING_SOUTH_VALUE;
+										break;
+									}
+									default: {
+										error = true;
+										commandErrorList.push(secondPart[2]);
+									}
+								}
+							}
 						}
 					} else {
 						error = true;
@@ -78,51 +118,27 @@ export function sendCommand(command = "") {
 		});
 
 		if (error) {
-			dispatch({ type: ERROR_MESSAGE, error: "Syntax error: " + commandErrorList.join(", ") + " probably you have wrote a typo" });
+			dispatch({ type: ERROR_MESSAGE, error: "Syntax error: " + commandErrorList.join(", ") + " one or more commands/parameters are incorrect" });
 		} else {
-
-			dispatch(typeDispatch);
+			dispatch([
+				{ type: ERROR_MESSAGE, error: "" },
+				{ type: ROBOT_MOVEMENT, robot: robotSetup }
+			]);
 		}
-
-		// switch (newCommand) {
-		// 	case COMMAND_PLACE: {
-
-		// 		break;
-		// 	}
-		// 	case COMMAND_MOVE: {
-		// 		const result = calulateMovement(robot, tableboard.size);
-		// 		delete result.wasMoved;
-
-		// 		typeDispatch.push({ type: ROBOT_MOVEMENT, position: result });
-		// 		break;
-		// 	}
-		// 	case COMMAND_LEFT: {
-		// 		typeDispatch.push({ type: CHANGE_FACING_ROBOT, value: calculateLeft(robot.facing) });
-		// 		break;
-		// 	}
-		// 	case COMMAND_RIGHT: {
-		// 		typeDispatch.push({ type: CHANGE_FACING_ROBOT, value: calculateRight(robot.facing) });
-		// 		break;
-		// 	}
-		// 	case COMMAND_REPORT: {
-		// 		break;
-		// 	}
-		// 	default: {
-		// 		error = true;
-		// 		break;
-		// 	}
-		// }
 	}
 }
-
+/**
+ * 
+ * @param {*} option 
+ */
 export function enableFreewill(option) {
 	return (dispatch, getState) => {
+		debugger;
 		const state = getState();
 		const { robot, tableboard } = state;
 
 		let isMoveFoward = (Math.floor(Math.random() * 20) > 5);
-		let facing = robot.facing;
-		let resultRobot = {};
+		let resultRobot = null;
 
 		if (isMoveFoward) {
 			const result = calulateMovement(robot, tableboard.size);
@@ -136,6 +152,7 @@ export function enableFreewill(option) {
 
 		if (isMoveFoward == false) {
 			const isTurnLeft = (Math.floor(Math.random() * 20) > 10);
+			let facing = 0;
 
 			if (isTurnLeft) {
 				facing = calculateLeft(robot.facing);
@@ -143,21 +160,24 @@ export function enableFreewill(option) {
 				facing = calculateRight(robot.facing);
 			}
 
-			const { x, y } = robot.position;
-			resultRobot = { x, y, facing }
+			resultRobot = { ...robot, facing }
 		}
 
-		dispatch({ type: ROBOT_MOVEMENT, position: resultRobot, facing });
+		dispatch({ type: ROBOT_MOVEMENT, robot: resultRobot });
 	}
 }
-
+/**
+ * Returns an robot object with the new position in the tableboard
+ * @param {*} robot robot object
+ * @param {*} maxSizeAllowed size of the tableboard {x: number, y: number}
+ */
 function calulateMovement(robot, maxSizeAllowed) {
-	let wasMoved = false;
-
 	const newPosition = {
 		x: robot.position.x,
 		y: robot.position.y
 	};
+
+	let wasMoved = false;
 
 	switch (robot.facing) {
 		case FACING_WEST_VALUE: {
@@ -191,11 +211,15 @@ function calulateMovement(robot, maxSizeAllowed) {
 	}
 
 	return {
-		...newPosition,
+		position: { ...newPosition },
+		facing: robot.facing,
 		wasMoved
 	};
 }
-
+/**
+ * Returns the current position adding 90
+ * @param {*} degreePosition number
+ */
 function calculateRight(degreePosition) {
 	/*if the result is more or equal than 360 it means two things, 
 		first, the robot has gave a completed a lap 
@@ -209,7 +233,10 @@ function calculateRight(degreePosition) {
 
 	return result;
 }
-
+/**
+ * Returns the current position subtracting 90
+ * @param {*} degreePosition number
+ */
 function calculateLeft(degreePosition) {
 	/*if the result is less than 0 it means two things, 
 		first, the robot has gave a completed a lap 

@@ -40,18 +40,13 @@ export default function appStore(state = initialState, action) {
 			};
 		}
 		case Constants.ROBOT_MOVEMENT: {
-			const hasValue = (action.facing != undefined);
+			const hasValue = (action.robot.facing != undefined);
 
 			return {
 				...state,
 				robot: {
-					...state.robot,
-					position: {
-						...state.robot.position,
-						x: action.position.x,
-						y: action.position.y
-					},
-					facing: hasValue ? action.facing : state.robot.facing
+					position: action.robot.position,
+					facing: hasValue ? action.robot.facing : state.robot.facing
 				}
 			}
 		}

@@ -33,10 +33,6 @@ export default class Home extends React.Component {
 			<div>
 				<div>
 					<textarea rows={10} cols={50} value={this.state.value} onChange={(evt) => this.onActionChange(evt)}></textarea>
-					<input
-						type="text"
-						value={this.state.action}
-						onChange={(evt) => this.onActionChange(evt)} />
 					<button
 						type="button"
 						onClick={() => this.props.sendCommand(this.state.action)}>send command</button>
