@@ -15,7 +15,7 @@ export const RESET_ROBOT_STATE = "RESET_ROBOT_STATE";
  */
 export function sendCommand(command = "") {
 	return (dispatch, getState) => {
-		const { robot, tableboard } = getState();
+		const { tableboard } = getState();
 		const operation = core.processCommand(command, tableboard.size);
 
 		if (operation.error) {
@@ -35,9 +35,13 @@ export function sendCommand(command = "") {
 export function freeRoadAround() {
 	return (dispatch, getState) => {
 		const { robot, tableboard } = getState();
-		const result = core.calculateRandomPosition(robot, tableboard.size);
+		const operation = core.calculateRandomPosition(robot, tableboard.size);
 
-		dispatch({ type: ROBOT_MOVEMENT, robot: result });
+		dispatch({
+			type: ROBOT_MOVEMENT,
+			robot: operation.result,
+			outputMessage: operation.outputMessage
+		});
 	};
 }
 

@@ -92,9 +92,7 @@ export function processCommand(command = "", maxSizeAllowed) {
 	if (commandsNotFound.length > 0) {
 		error = true;
 		errorMessage =
-			"Syntax error: " +
-			commandsNotFound.join(", ") +
-			" one or more commands are incorrect";
+			"Syntax error: " + commandsNotFound.join(", ") + " one or more commands are incorrect";
 	}
 
 	if (error) {
@@ -150,7 +148,14 @@ export function calculateRandomPosition(robot, maxSizeAllowed) {
 		newRobot = { ...robot, facing };
 	}
 
-	return newRobot;
+	return {
+		result: newRobot,
+		outputMessage: getReport(
+			newRobot.position.x,
+			newRobot.position.y,
+			getFacingCodeByValue(newRobot.facing)
+		)
+	};
 }
 /**
  * Returns an robot object with the new coordinates in the tableboard
