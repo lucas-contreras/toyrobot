@@ -30,7 +30,6 @@ export default function appStore(state = initialState, action) {
 		case Constants.CHANGE_FACING_ROBOT: {
 			return {
 				...state,
-				isReset: false,
 				robot: {
 					...state.robot,
 					facing: action.value
@@ -44,7 +43,6 @@ export default function appStore(state = initialState, action) {
 				...state,
 				errorMessage: "",
 				reportMessage: outputMessage,
-				isReset: false,
 				robot: {
 					position: robot.position,
 					facing: robot.facing
