@@ -119,7 +119,7 @@ export function processCommand(command = "", maxSizeAllowed) {
  * @param {*} maxSizeAllowed size of the tableboard {x: number, y: number}
  */
 export function calculateRandomPosition(robot, maxSizeAllowed) {
-	let moveFoward = Math.floor(Math.random() * 20) > 5;
+	let moveFoward = Math.floor(Math.random() * 20) > 8;
 	let newRobot = null;
 
 	if (moveFoward) {
