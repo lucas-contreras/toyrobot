@@ -1,6 +1,6 @@
 const path = require("path");
 
-module.exports = function(env, args) {
+module.exports = function (env, args) {
 	return {
 		mode: "development",
 		entry: path.join(__dirname, "./index.js"),
@@ -20,7 +20,11 @@ module.exports = function(env, args) {
 		devtool: "source-map",
 		target: "web",
 		resolve: {
-			extensions: [".js", ".jsx", ".css"]
+			extensions: [".js", ".jsx", ".css"],
+			modules: [
+				path.resolve("./src/core"),
+				"node_modules"
+			]
 		},
 		output: {
 			path: __dirname + "/dist",
