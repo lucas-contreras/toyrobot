@@ -13,19 +13,19 @@ export default class Home extends React.Component {
 		this.props.changeCommands(evt.target.value);
 	}
 
-	onEnableFreewill() {
+	freeRoadAround() {
 		if (!this.intervalId) {
 			this.intervalId = setInterval(() => {
-				this.props.enableFreewill()
+				this.props.freeRoadAround();
 			}, 1000);
 		}
 	}
 
-	onTurnOffFreewill() {
+	onResetState() {
 		clearInterval(this.intervalId);
 		this.intervalId = null;
 
-		this.props.resetRobotState();
+		this.props.resetState();
 	}
 
 	render() {
@@ -49,29 +49,42 @@ export default class Home extends React.Component {
 									type="button"
 									className="btn btn-primary margin-right-xxxs"
 									disabled={this.intervalId != null}
-									onClick={() => this.props.sendCommand(this.props.commands)}>Execute command</button>
+									onClick={() => this.props.sendCommand(this.props.commands)}
+								>
+									Execute command
+								</button>
 								<button
 									type="button"
 									className="btn btn-primary margin-right-xxxs"
 									disabled={this.intervalId != null}
-									onClick={() => this.onEnableFreewill()}>Active freewill</button>
+									onClick={() => this.freeRoadAround()}
+								>
+									Free Roam Around
+								</button>
 								<button
 									type="button"
 									className="btn btn-primary margin-right-xxxs"
-									onClick={() => this.onTurnOffFreewill()}>Reset All</button>
+									onClick={() => this.onResetState()}
+								>
+									Reset All
+								</button>
 							</div>
 							<div className="col-12">
-								{this.intervalId != null
-									? <div className="alert alert-danger" role="alert">Freewill has been activated</div>
-									: <textarea rows={10} cols={55} value={this.props.commands} onChange={(evt) => this.onActionChange(evt)}></textarea>
-								}
-
+								{this.intervalId != null ? (
+									<div className="alert alert-danger" role="alert">
+										Freewill has been activated
+									</div>
+								) : (
+									<textarea
+										rows={10}
+										cols={55}
+										value={this.props.commands}
+										onChange={(evt) => this.onActionChange(evt)}
+									/>
+								)}
 							</div>
 							<div className="col-12">
-								<label>Output</label>
-							</div>
-							<div className="col-12">
-								<input type="textbox" value={this.props.reportMessage} readOnly title="Here you will see output result when you input REPORT in above input" />
+								<label title="Output result">{this.props.reportMessage}</label>
 							</div>
 							<div className="col-12">
 								<label style={{ color: "red" }}>{this.props.errorMessage}</label>

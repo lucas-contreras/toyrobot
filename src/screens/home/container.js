@@ -14,11 +14,11 @@ const mapDispatchToProps = (dispatch) => {
 		sendCommand: (command) => {
 			dispatch(Methods.sendCommand(command));
 		},
-		enableFreewill: (option = true) => {
-			dispatch(Methods.enableFreewill(option))
+		freeRoadAround: (option = true) => {
+			dispatch(Methods.freeRoadAround(option))
 		},
-		resetRobotState: () => {
-			dispatch(Methods.resetRobotState())
+		resetState: () => {
+			dispatch(Methods.resetState())
 		},
 		changeCommands: (commands) => {
 			dispatch(Methods.changeCommands(commands));

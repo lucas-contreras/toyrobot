@@ -1,40 +1,44 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {
+	FACING_SOUTH_VALUE,
+	FACING_NORTH_VALUE,
+	FACING_EAST_VALUE,
+	FACING_WEST_VALUE
+} from "coreToy";
 
 /**
  * Component that represents image robot
- * @param {*} props 
+ * @param {*} props
  */
 const RobotImg = (props) => {
-    const { facing } = props;
-    let src = "";
+	const { facing } = props;
+	let src = "";
 
-    switch (facing) {
-        case 270: {
-            src = "rsouth.png";
-            break;
-        }
-        case 90: {
-            src = "rnorth.png";
-            break;
-        }
-        case 0: {
-            src = "reast.png";
-            break;
-        }
-        case 180: {
-            src = "rwest.png";
-            break;
-        }
-    }
+	switch (facing) {
+		case FACING_SOUTH_VALUE: {
+			src = "rsouth.png";
+			break;
+		}
+		case FACING_NORTH_VALUE: {
+			src = "rnorth.png";
+			break;
+		}
+		case FACING_EAST_VALUE: {
+			src = "reast.png";
+			break;
+		}
+		case FACING_WEST_VALUE: {
+			src = "rwest.png";
+			break;
+		}
+	}
 
-    return (
-        <img src={`../../../assest/robot/${src}`} height={70} width={70} />
-    )
-}
+	return <img src={`../../../assets/robot/${src}`} height={70} width={70} />;
+};
 
 RobotImg.propTypes = {
-    facing: PropTypes.number.isRequired
-}
+	facing: PropTypes.number.isRequired
+};
 
 export default RobotImg;

@@ -9,7 +9,7 @@ import "./tableboard.css";
 const Square = (props) => (<div className="square">{props.children}</div>);
 
 Square.propTypes = {
-    children: PropTypes.element
+    children: PropTypes.node
 }
 
 export default Square;

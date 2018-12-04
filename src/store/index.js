@@ -1,7 +1,12 @@
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-import multi from "redux-multi"
+import multi from "redux-multi";
 
 import appStore from "./appStore";
 
-export const store = createStore(appStore, applyMiddleware(thunk, multi));
+const composeEnhancer =
+	typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+		: compose;
+
+export const store = createStore(appStore, composeEnhancer(applyMiddleware(thunk, multi)));
