@@ -363,7 +363,8 @@ export const Methods = {
 	calculateRight,
 	calculateLeft,
 	getFacingCodeByValue,
-	getFacingValueByCode
+	getFacingValueByCode,
+	getReport
 }
 
 export const Constants = {

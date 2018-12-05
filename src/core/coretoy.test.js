@@ -43,7 +43,17 @@ describe("Test no async action", () => {
         const size = { x: 5, y: 5 };
 
         const evaluateExpression = Methods.calculateRandomPosition(robot, size);
-        
+
         expect(evaluateExpression.result).not.toEqual({});
+    });
+
+    it("Printing Report", () => {
+        const robot = { position: { x: 0, y: 0 }, facing: Constants.FACING_EAST_VALUE };
+        const size = { x: 5, y: 5 };
+
+        const evaluateExpression = Methods.getReport(0, 1, Constants.FACING_NORTH_CODE);
+        const expectedValue = "Output: 0, 1, NORTH"
+
+        expect(evaluateExpression).toEqual(expectedValue);
     });
 });
