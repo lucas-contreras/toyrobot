@@ -8,6 +8,8 @@ MOVE => Move the robot one block (if it can, of course) in direccion on his curr
 LEFT => Turn left 90 degreeds
 RIGHT => Turn right 90 degreeds
 REPORT => Show a report about where the robot is
+
+FACING can be NORTH, SOUTH, EAST, WEST
 ```
 
 any other commands will not accepted.
