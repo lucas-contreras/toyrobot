@@ -5,7 +5,7 @@ import {
 	FACING_NORTH_VALUE,
 	FACING_EAST_VALUE,
 	FACING_WEST_VALUE
-} from "coreToy";
+} from "../../core/coretoy";
 
 /**
  * Component that represents image robot

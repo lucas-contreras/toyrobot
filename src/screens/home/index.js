@@ -17,7 +17,7 @@ export default class Home extends React.Component {
 		if (!this.intervalId) {
 			this.intervalId = setInterval(() => {
 				this.props.freeRoadAround();
-			}, 1000);
+			}, 1500);
 		}
 	}
 

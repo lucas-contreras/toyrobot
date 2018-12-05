@@ -20,11 +20,7 @@ module.exports = function (env, args) {
 		devtool: "source-map",
 		target: "web",
 		resolve: {
-			extensions: [".js", ".jsx", ".css"],
-			modules: [
-				path.resolve("./src/core"),
-				"node_modules"
-			]
+			extensions: [".js", ".jsx", ".css"]
 		},
 		output: {
 			path: __dirname + "/dist",

@@ -119,7 +119,7 @@ export function processCommand(command = "", maxSizeAllowed) {
  * @param {*} maxSizeAllowed size of the tableboard {x: number, y: number}
  */
 export function calculateRandomPosition(robot, maxSizeAllowed) {
-	let moveFoward = Math.floor(Math.random() * 20) > 13;
+	let moveFoward = Math.floor(Math.random() * 20) > 10;
 	let newRobot = null;
 
 	if (moveFoward) {
@@ -185,15 +185,15 @@ export function calculateMovement(robot, maxSizeAllowed) {
 			break;
 		}
 		case FACING_SOUTH_VALUE: {
-			if (newPosition.y + 1 < maxSizeAllowed.y) {
-				newPosition.y++;
+			if (newPosition.y <= maxSizeAllowed.y && newPosition.y > 0) {
+				newPosition.y--;
 				wasMoved = true;
 			}
 			break;
 		}
 		case FACING_NORTH_VALUE: {
-			if (newPosition.y <= maxSizeAllowed.y && newPosition.y > 0) {
-				newPosition.y--;
+			if (newPosition.y + 1 < maxSizeAllowed.y) {
+				newPosition.y++;
 				wasMoved = true;
 			}
 			break;
@@ -300,7 +300,7 @@ export function getReport(x, y, facingCode) {
  * @param {*} command command as string
  * @param {*} maxSizeAllowed size of the tableboard {x: number, y: number}
  */
-function validatePlaceCommand(command = "", maxSizeAllowed) {
+export function validatePlaceCommand(command = "", maxSizeAllowed) {
 	const result = {
 		error: false,
 		message: "",
@@ -356,7 +356,7 @@ function validatePlaceCommand(command = "", maxSizeAllowed) {
 	return result;
 }
 
-export default {
+export const Methods = {
 	processCommand,
 	calculateRandomPosition,
 	calculateMovement,
@@ -364,4 +364,22 @@ export default {
 	calculateLeft,
 	getFacingCodeByValue,
 	getFacingValueByCode
-};
+}
+
+export const Constants = {
+	FACING_EAST_VALUE,
+	FACING_NORTH_VALUE,
+	FACING_WEST_VALUE,
+	FACING_SOUTH_VALUE,
+
+	FACING_EAST_CODE,
+	FACING_NORTH_CODE,
+	FACING_WEST_CODE,
+	FACING_SOUTH_CODE,
+
+	COMMAND_PLACE,
+	COMMAND_MOVE,
+	COMMAND_LEFT,
+	COMMAND_RIGHT,
+	COMMAND_REPORT
+}

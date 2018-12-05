@@ -16,7 +16,7 @@ export default class TableBoard extends React.Component {
 		const { robot } = this.props;
 		const squares = [];
 
-		for (let y = 0; y < size.y; y++) {
+		for (let y = (size.y - 1); y >= 0; y--) {
 			for (let x = 0; x < size.x; x++) {
 				const existRobot = (robot && (robot.position.x == x && robot.position.y == y));
 

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import RobotImg from "./robotImg";
 
 /**
- * Component that represent the robot itselft
+ * Component that represent the robot itself
  * @param {*} props 
  */
 const Robot = (props) => (<div><RobotImg facing={props.robot.facing} /></div>)

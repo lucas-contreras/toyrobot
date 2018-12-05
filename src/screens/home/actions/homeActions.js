@@ -1,4 +1,4 @@
-import core from "coretoy";
+import { Methods as coreMethods } from "../../../core/coretoy";
 
 export const ROBOT_MOVEMENT = "ROBOT_MOVEMENT";
 
@@ -16,7 +16,7 @@ export const RESET_ROBOT_STATE = "RESET_ROBOT_STATE";
 export function sendCommand(command = "") {
 	return (dispatch, getState) => {
 		const { tableboard } = getState();
-		const operation = core.processCommand(command, tableboard.size);
+		const operation = coreMethods.processCommand(command, tableboard.size);
 
 		if (operation.error) {
 			dispatch({ type: ERROR_MESSAGE, error: operation.message });
@@ -35,7 +35,7 @@ export function sendCommand(command = "") {
 export function freeRoadAround() {
 	return (dispatch, getState) => {
 		const { robot, tableboard } = getState();
-		const operation = core.calculateRandomPosition(robot, tableboard.size);
+		const operation = coreMethods.calculateRandomPosition(robot, tableboard.size);
 
 		dispatch({
 			type: ROBOT_MOVEMENT,
