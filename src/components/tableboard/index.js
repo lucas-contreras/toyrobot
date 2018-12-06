@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import Robot from "../robot"
 import Square from "./square";
 import Line from "./line";
@@ -31,4 +33,8 @@ export default class TableBoard extends React.Component {
 
 		return squares;
 	}
+}
+
+TableBoard.propTypes = {
+    size: PropTypes.object.isRequired
 }

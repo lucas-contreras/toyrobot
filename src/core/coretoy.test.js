@@ -1,9 +1,9 @@
 import {
     Methods,
     Constants
-} from "./coretoy"
+} from "../core/coretoy"
 
-describe("Test no async action", () => {
+describe("Tests action from coretoy", () => {
     it("Trying to move the robot 1 step to right", () => {
         const robot = { position: { x: 0, y: 0 }, facing: Constants.FACING_EAST_VALUE };
         const size = { x: 5, y: 5 };
@@ -48,9 +48,6 @@ describe("Test no async action", () => {
     });
 
     it("Printing Report", () => {
-        const robot = { position: { x: 0, y: 0 }, facing: Constants.FACING_EAST_VALUE };
-        const size = { x: 5, y: 5 };
-
         const evaluateExpression = Methods.getReport(0, 1, Constants.FACING_NORTH_CODE);
         const expectedValue = "Output: 0, 1, NORTH"
 

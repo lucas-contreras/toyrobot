@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { resolve } from "path"
 import {
 	FACING_SOUTH_VALUE,
 	FACING_NORTH_VALUE,
@@ -34,7 +35,7 @@ const RobotImg = (props) => {
 		}
 	}
 
-	return <img src={`../../../assets/robot/${src}`} height={70} width={70} />;
+	return <img src={resolve(__dirname, `./assets/robot/${src}`)} height={70} width={70} />;
 };
 
 RobotImg.propTypes = {
